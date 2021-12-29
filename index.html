@@ -17,11 +17,7 @@
         border: 1px solid rgb(0, 0, 0);
         padding: 8px;
       }
-
-      /* #crypto tr:hover {
-        background-color: rgb(255, 255, 255);
-      } */
-
+      
       #crypto th {
         padding-top: 12px;
         padding-bottom: 12px;
@@ -65,11 +61,11 @@
         rawFile.send(null);
       }
 
-      //usage:
       showtable();
       setInterval(() => {
         showtable();
       }, 10000);
+
       function showtable() {
         readTextFile("result.json", function (text) {
           var data = JSON.parse(text);

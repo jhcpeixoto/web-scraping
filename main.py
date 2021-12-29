@@ -13,11 +13,6 @@ url = "https://etherscan.io/token/0xab167E816E4d76089119900e941BEfdfA37d6b32"
 option = Options()
 option.headless = True
 
-
-# driver.find_element_by_xpath(
-#         "//ul[@class='pagination']//li[@class='page-item disabled']//strong").first()
-
-
 n = 1
 while n > 0:
     driver = 0
@@ -25,12 +20,12 @@ while n > 0:
     driver = webdriver.Firefox(options=option, executable_path=r'C:/geckodriver.exe')
 
     driver.get(url)
-    time.sleep(4)
+    time.sleep(3)
 
     driver.switch_to.frame(driver.find_element_by_xpath("//div[@id='transactions']//iframe"))
 
     results = []
-    for i in range(10):
+    for i in range(3):
         element = driver.find_element_by_xpath(
             "//table")
         html_content = element.get_attribute('outerHTML')
@@ -50,7 +45,6 @@ while n > 0:
 
         results.append(result)
 
-        print("Page: ", i+1)
         time.sleep(1)
         driver.find_element_by_xpath(
             "//li[@data-original-title='Go to Next']//a").click()
@@ -61,4 +55,3 @@ while n > 0:
     fp = open('result.json', 'w')
     fp.write(js)
     fp.close()
-    time.sleep(1)
