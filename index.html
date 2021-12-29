@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #crypto {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      #crypto td,
+      #crypto th {
+        border: 1px solid rgb(0, 0, 0);
+        padding: 8px;
+      }
+
+      /* #crypto tr:hover {
+        background-color: rgb(255, 255, 255);
+      } */
+
+      #crypto th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #d1d1d1;
+        color: rgb(0, 0, 0);
+      }
+
+      #crypto thead th {
+        background-color: #04aa6d;
+      }
+
+      #crypto th:first-child {
+        background-color: #04aa6d;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="crypto">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody id="table_body"></tbody>
+    </table>
+
+    <script>
+      function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function () {
+          if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+          }
+        };
+        rawFile.send(null);
+      }
+
+      //usage:
+      showtable();
+      setInterval(() => {
+        showtable();
+      }, 10000);
+      function showtable() {
+        readTextFile("result.json", function (text) {
+          var data = JSON.parse(text);
+          var tr_element = "";
+          table = document.getElementById("table_body");
+
+          for (let i = 0; i < data.length; i++) {
+            const element = data[i];
+            for (let y = 0; y < element.results.length; y++) {
+              const elementResult = element.results[y];
+              tr_element += `<tr>`;
+              tr_element =
+                tr_element +
+                `
+                  <th>${elementResult.method}</th>
+                  <th>${elementResult.from}</th>
+                  <th>${elementResult.to}</th>
+                  <th>${elementResult.quantity}</th>
+                  `;
+              tr_element = tr_element + "</tr>";
+            }
+
+            document.getElementById("table_body").innerHTML = tr_element;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
